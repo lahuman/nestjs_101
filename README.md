@@ -1,9 +1,7 @@
 # NestJS 101
 
 
-<iframe src="//www.slideshare.net/slideshow/embed_code/key/y4WQ3UXN1ZDvL" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/lahuman1/nest-js-101-241816990" title="Nest js 101" target="_blank">Nest js 101</a> </strong> from <strong><a href="https://www.slideshare.net/lahuman1" target="_blank">Daniel Lim</a></strong> </div>
-
-
+## [설명 문서 바로가기](www.slideshare.net/slideshow/embed_code/key/y4WQ3UXN1ZDvL)
 
 
 > [nestjs cli](https://docs.nestjs.com/cli/overview) 를 이용하면 쉽게 프로젝트를 생성 할수 있습니다.
