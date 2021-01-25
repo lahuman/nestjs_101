@@ -3,6 +3,7 @@
 
 ## [설명 문서 바로가기](www.slideshare.net/slideshow/embed_code/key/y4WQ3UXN1ZDvL)
 
+## 1. nestjs cli
 
 > [nestjs cli](https://docs.nestjs.com/cli/overview) 를 이용하면 쉽게 프로젝트를 생성 할수 있습니다.
 
