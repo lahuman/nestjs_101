@@ -1,7 +1,7 @@
 # NestJS 101
 
 
-## [설명 문서 바로가기](www.slideshare.net/slideshow/embed_code/key/y4WQ3UXN1ZDvL)
+## [설명 PPT 문서 바로가기](https://www.slideshare.net/lahuman1/nest-js-101-241816990)
 
 ## 1. nestjs cli
 
