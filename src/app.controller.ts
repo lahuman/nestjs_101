@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpService, Logger, Post, Req } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppService } from './app.service';
-import { UserDto } from './dto/User.dto';
+import { UserDto } from './dto/user.dto';
 import { Request } from 'express';
 
 @Controller()
@@ -27,7 +27,7 @@ export class AppController {
     return "pass valid! : " + dbUser + "/" + dbHost;
   }
 
-  @Get('/visits')
+  @Get('visits')
   findAll(@Req() req: Request): string {
     req.session["visits"] = req.session["visits"] ? req.session["visits"] + 1 : 1;
     return "My VISITS : " + req.session["visits"];
