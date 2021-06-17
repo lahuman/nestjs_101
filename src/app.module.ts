@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -14,9 +15,10 @@ import { UserModule } from './user/user.module';
     dropSchema: true,
     entities: ["dist/**/*.entity{.ts,.js}"],
     synchronize: true,
-    logging: false
+    logging: true
   }),
   UserModule,
+  AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

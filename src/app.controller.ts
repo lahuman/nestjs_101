@@ -1,10 +1,15 @@
-import { Body, Controller, Get, HttpService, Logger, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpService, Logger, Post, Req, Res, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppService } from './app.service';
-import { UserDto } from './dto/user.dto';
-import { Request } from 'express';
+import { LoginDto, UserDto } from './dto/user.dto';
+import { Request, Response } from 'express';
+import { AuthExceptionFilter } from './common/filters/auth-exceptions.filter';
+import { LoginGuard } from './common/guards/login.guard';
+import { ApiBody } from '@nestjs/swagger';
+import { AuthenticatedGuard } from './common/guards/authenticated.guard';
 
 @Controller()
+@UseFilters(AuthExceptionFilter)
 export class AppController {
   constructor(private readonly appService: AppService,
     private configService: ConfigService,
@@ -37,5 +42,24 @@ export class AppController {
   async callMockHtt(): Promise<any> {
     const res = await this.httpService.get('http://jsonplaceholder.typicode.com/todos/1').toPromise();
     return res.data;
+  }
+
+  @UseGuards(LoginGuard)
+  @ApiBody({ type: LoginDto })
+  @Post('/login')
+  login(@Req() req, @Res() res: Response): void {
+    res.send(req.user);
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Get('/loginCheck')
+  loginCheck(@Req() req, @Res() res: Response): void {
+    res.send(req.user);
+  }
+
+  @Get('/logout')
+  logout(@Req() req, @Res() res: Response): void {
+    req.logout();
+    res.redirect('/');
   }
 }

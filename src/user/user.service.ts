@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto } from 'src/dto/user.dto';
-import { Repository } from 'typeorm';
+import { CreateUserDto, ModifyUserDto, SearchUserDto, UserRO } from './dto/user.dto';
+import { Like, Repository } from 'typeorm';
 import { UserEntity } from '../entity/user.entity';
 
 @Injectable()
@@ -11,19 +11,30 @@ export class UserService {
         private usersRepository: Repository<UserEntity>,
     ) { }
 
-    findAll(): Promise<UserEntity[]> {
-        return this.usersRepository.find();
+    async find(searchUser: SearchUserDto): Promise<UserRO> {
+        const condition = {};
+        searchUser.id && (condition['id'] = Like(`%${searchUser.id}%`));
+        searchUser.name && (condition['name'] = Like(`%${searchUser.name}%`));
+        const list = await this.usersRepository.find({ ...condition });
+        return new UserRO({ list });
     }
 
-    findOne(id: string): Promise<UserEntity> {
-        return this.usersRepository.findOne(id);
+    async findUser(id: string): Promise<UserRO> {
+        const user = await this.usersRepository.findOne({ id });
+        return new UserRO({ user });
     }
 
     async remove(id: string): Promise<void> {
-        await this.usersRepository.delete(id);
+        await this.usersRepository.softDelete({ id });
     }
 
-    async save(userInfo: CreateUserDto): Promise<UserEntity> {
-        return await this.usersRepository.save(new UserEntity(userInfo.user));
+    async save(userInfo: CreateUserDto): Promise<UserRO> {
+        const user = await this.usersRepository.save(new UserEntity(userInfo));
+        return new UserRO({ user });
+    }
+    async update(id: string, userInfo: ModifyUserDto): Promise<UserRO> {
+        const user = await this.usersRepository.findOne({ id });
+        const reUser = await this.usersRepository.save(new UserEntity({ ...user, ...userInfo }));
+        return new UserRO({ user: reUser });
     }
 }
