@@ -252,6 +252,18 @@ async function bootstrap() {
 bootstrap();
 ```
 
+## 로그인 & DB 연결 예제 추가(2021.06.17)
+
+- typeorm + sqlite 조합의 사용자 CRUD 구현
+- passport + local strategy를 이용한 로그인/로그아웃 처리 
+    - [test-auth-chapter-sample](https://github.com/lahuman/test-auth-chapter-sample)를 참조하여 구현 하였습니다. 
+
+### auth 모듈 아래에 로그인 관련 설정이 있습니다.
+
+### common 디렉토리 아래에 로그인 처리를 위한 filters / guards 가 추가 되었습니다.
+
+### user 모듈 아래에 사용자 정보 CRUD 구현 예제가 있습니다.
+
 
 ## 상세한 예제는 다음 2개의 프로젝트를 참고 하세요.
 
