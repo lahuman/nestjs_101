@@ -8,7 +8,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
 
-const mockUser = (param) => new UserEntity({ seq: 1, id: 'lahuman', name: '임광규', email: 'lahuman@daum.net', passowrd: '1234', ...param });
+const mockUser = (param) => new UserEntity({ seq: 1, id: 'lahuman', name: '임광규', email: 'lahuman@daum.net', passowrd: '1234', regrId: 'lahuman' ...param });
 
 export class MockRepository {
   async findOne(param) {

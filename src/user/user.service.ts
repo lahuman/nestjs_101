@@ -28,8 +28,8 @@ export class UserService {
         await this.usersRepository.softDelete({ id });
     }
 
-    async save(userInfo: CreateUserDto): Promise<UserRO> {
-        const user = await this.usersRepository.save(new UserEntity(userInfo));
+    async save(userInfo: CreateUserDto, regrId: string): Promise<UserRO> {
+        const user = await this.usersRepository.save(new UserEntity({...userInfo, regrId}));
         return new UserRO({ user });
     }
     async update(id: string, userInfo: ModifyUserDto): Promise<UserRO> {

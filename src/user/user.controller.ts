@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
   UseFilters,
   UseGuards,
   UseInterceptors,
@@ -45,9 +46,10 @@ export class UserController {
   @ApiOperation({ summary: '사용자 등록' })
   @ApiResponse({ status: 201, type: UserRO })
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(AuthenticatedGuard)
   @Post()
-  async addUser(@Body() userDto: CreateUserDto): Promise<UserRO> {
-    return await this.service.save(userDto);
+  async addUser(@Req() req, @Body() userDto: CreateUserDto): Promise<UserRO> {
+    return await this.service.save(userDto, req.user.id);
   }
 
   @ApiBody({ type: ModifyUserDto })
