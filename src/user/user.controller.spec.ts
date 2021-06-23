@@ -78,6 +78,21 @@ describe('UserController', () => {
     expect(JSON.parse(response.text).user.id).toEqual('lahuman');
   });
 
+  it('사용자 등록 실패', async () => {
+    // ID 누락으로 오류 발생
+    const response = await request(app.getHttpServer())
+      .post("/user")
+      .send({
+        name: '임광규',
+        email: 'lahuman@daum.net',
+        password: '1234'
+      })
+      .expect(500);
+    const result = JSON.parse(response.text);
+    expect(result.exception.response.statusCode).toEqual(400);
+    expect(result.exception.response.message[0]).toEqual("id should not be empty");
+  });
+
   it('사용자 등록', async () => {
     const response = await request(app.getHttpServer())
       .post("/user")
