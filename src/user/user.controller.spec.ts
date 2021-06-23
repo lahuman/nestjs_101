@@ -10,7 +10,7 @@ import { UserService } from './user.service';
 
 const mockUser = (param) => new UserEntity({ seq: 1, id: 'lahuman', name: '임광규', email: 'lahuman@daum.net', passowrd: '1234', ...param });
 
-class MockRepository {
+export class MockRepository {
   async findOne(param) {
     return mockUser(param);
   }
@@ -56,6 +56,7 @@ describe('UserController', () => {
 
     app = module.createNestApplication();
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
+    await app.init();
     controller = module.get<UserController>(UserController);
   });
 
@@ -63,15 +64,21 @@ describe('UserController', () => {
     expect(controller).toBeDefined();
   });
 
-  
+  it('사용자 목록 조회', async () => {
+    const response = await request(app.getHttpServer())
+      .get("/user")
+      .expect(200);
+    expect(JSON.parse(response.text).list[0].id).toEqual('lahuman');
+  });
+
   it('사용자 조회', async () => {
     const response = await request(app.getHttpServer())
-      .get("/user/1")
+      .get("/user/lahuman")
       .expect(200);
     expect(JSON.parse(response.text).user.id).toEqual('lahuman');
   });
 
-  it('사용자 추가', async () => {
+  it('사용자 등록', async () => {
     const response = await request(app.getHttpServer())
       .post("/user")
       .send({
@@ -82,5 +89,27 @@ describe('UserController', () => {
       })
       .expect(201);
     expect(JSON.parse(response.text).user.id).toEqual('lahuman');
+  });
+
+  it('사용자 수정', async () => {
+    const response = await request(app.getHttpServer())
+      .put("/user/lahuman")
+      .send({
+        name: '홍길동',
+        email: 'lahuman@daum.net',
+        password: '1234'
+      })
+      .expect(200);
+    expect(JSON.parse(response.text).user.name).toEqual('홍길동');
+  });
+
+  it('사용자 삭제', async () => {
+    const response = await request(app.getHttpServer())
+      .delete("/user/lahuman")
+      .expect(200);
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 });
