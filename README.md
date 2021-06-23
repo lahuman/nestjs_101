@@ -264,6 +264,25 @@ bootstrap();
 
 ### user 모듈 아래에 사용자 정보 CRUD 구현 예제가 있습니다.
 
+## 테스트 케이스 추가(2021.06.23)
+
+테스트 케이스를 추가하였습니다.
+
+> user.controller.spec.ts 파일을 기준으로 End to End 테스트 케이스를 작성하였습니다.
+
+
+### 전체 테스트 실행
+
+```
+npm run test
+```
+
+### 특정 테스트 케이스 실행
+
+```
+node node_modules/jest/bin/jest.js src/user/user.controller.spec.ts
+```
+
 
 ## 상세한 예제는 다음 2개의 프로젝트를 참고 하세요.
 
@@ -273,4 +292,4 @@ bootstrap();
 ## 참고자료
 - [First steps](https://docs.nestjs.com/first-steps)
 - [nestjs cli](https://docs.nestjs.com/cli/overview)
-
+- [nestjs 테스트 케이스 예제](https://lahuman.github.io/nestjs_jest_testcase/)
