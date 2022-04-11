@@ -251,18 +251,47 @@ async function bootstrap() {
 }
 bootstrap();
 ```
+## ACCESS 로깅 middleware 추가(2022.04.11) 
 
-## 로그인 & DB 연결 예제 추가(2021.06.17)
+```src/common/middleware/AppLoggerMiddleware.ts``` 파일 추가 및 ```src/app.module.ts```에 다음 내용 추가
 
-- typeorm + sqlite 조합의 사용자 CRUD 구현
-- passport + local strategy를 이용한 로그인/로그아웃 처리 
-    - [test-auth-chapter-sample](https://github.com/lahuman/test-auth-chapter-sample)를 참조하여 구현 하였습니다. 
+```javascript
+// src/common/middleware/AppLoggerMiddleware.ts
+import { Request, Response, NextFunction } from "express";
+import { Injectable, NestMiddleware, Logger } from "@nestjs/common";
 
-### auth 모듈 아래에 로그인 관련 설정이 있습니다.
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+  private logger = new Logger("HTTP");
 
-### common 디렉토리 아래에 로그인 처리를 위한 filters / guards 가 추가 되었습니다.
+  use(request: Request, response: Response, next: NextFunction): void {
+    const { ip, method, originalUrl } = request;
+    const userAgent = request.get("user-agent") || "";
 
-### user 모듈 아래에 사용자 정보 CRUD 구현 예제가 있습니다.
+    response.on("finish", () => {
+      const { statusCode } = response;
+      const contentLength = response.get("content-length");
+
+      this.logger.log(
+        `${method} ${originalUrl} ${statusCode} ${contentLength} - ${userAgent} ${ip}`,
+      );
+      if (method !== 'GET') {
+        this.logger.debug(request.body);
+      }
+    });
+
+    next();
+  }
+}
+
+// src/app.module.ts
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(AppLoggerMiddleware).forRoutes('*');
+  }
+}
+```
+
 
 ## 테스트 케이스 추가(2021.06.23)
 
@@ -282,6 +311,20 @@ npm run test
 ```
 node node_modules/jest/bin/jest.js src/user/user.controller.spec.ts
 ```
+
+
+## 로그인 & DB 연결 예제 추가(2021.06.17)
+
+- typeorm + sqlite 조합의 사용자 CRUD 구현
+- passport + local strategy를 이용한 로그인/로그아웃 처리 
+    - [test-auth-chapter-sample](https://github.com/lahuman/test-auth-chapter-sample)를 참조하여 구현 하였습니다. 
+
+### auth 모듈 아래에 로그인 관련 설정이 있습니다.
+
+### common 디렉토리 아래에 로그인 처리를 위한 filters / guards 가 추가 되었습니다.
+
+### user 모듈 아래에 사용자 정보 CRUD 구현 예제가 있습니다.
+
 
 
 ## 상세한 예제는 다음 2개의 프로젝트를 참고 하세요.

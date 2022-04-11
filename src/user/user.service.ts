@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto, ModifyUserDto, SearchUserDto, UserRO } from './dto/user.dto';
 import { Like, Repository } from 'typeorm';
@@ -6,10 +6,11 @@ import { UserEntity } from '../entity/user.entity';
 
 @Injectable()
 export class UserService {
+    logger: Logger;
     constructor(
         @InjectRepository(UserEntity)
         private usersRepository: Repository<UserEntity>,
-    ) { }
+    ) { this.logger = new Logger(UserService.name);}
 
     async find(searchUser: SearchUserDto): Promise<UserRO> {
         const condition = {};
@@ -29,7 +30,7 @@ export class UserService {
     }
 
     async save(userInfo: CreateUserDto, regrId: string): Promise<UserRO> {
-        const user = await this.usersRepository.save(new UserEntity({...userInfo, regrId}));
+        const user = await this.usersRepository.save(new UserEntity({ ...userInfo, regrId }));
         return new UserRO({ user });
     }
     async update(id: string, userInfo: ModifyUserDto): Promise<UserRO> {

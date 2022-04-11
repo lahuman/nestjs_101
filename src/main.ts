@@ -8,14 +8,16 @@ import * as passport from 'passport';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['log', 'debug', 'error']
+  });
   app.useGlobalPipes(new ValidationPipe());
   app.use(helmet());
   app.enableCors();
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
-    .setVersion('1.0').addTag('cats')
+    .setTitle('User example')
+    .setDescription('The user API description')
+    .setVersion('1.0').addTag('user')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);

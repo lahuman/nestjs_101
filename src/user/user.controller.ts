@@ -25,7 +25,17 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly service: UserService) { }
 
-  @ApiOperation({ summary: '사용자 목록 조회' })
+  @ApiOperation({ summary: 'TEST 사용자 추가 (권한 없이 추가 가능)' })
+  @ApiResponse({ status: 200, type: UserRO })
+  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiBody({ type: CreateUserDto })
+  @Post("addTestUser")
+  async addTestUser(@Body() userDto: CreateUserDto): Promise<UserRO> {
+    return this.service.save(userDto, 'test');
+  }
+
+
+  @ApiOperation({ summary: '사용자 조회' })
   @ApiResponse({ status: 200, type: UserRO })
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
