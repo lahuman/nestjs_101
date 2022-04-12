@@ -17,11 +17,12 @@ import { LoginStatus } from './interfaces/login-status.interface';
 import { LoginUserDto } from '../user/dto/user.dto';
 import { JwtPayload } from './interfaces/payload.interface';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthExceptionFilter } from '../common/filters/auth-exceptions.filter';
 import { JwtGuard } from '../common/guards/jwt.guard';
 
 @ApiTags('계정관리')
+@ApiBasicAuth()
 @Controller('auth')
 @UseFilters(AuthExceptionFilter)
 export class AuthController {
