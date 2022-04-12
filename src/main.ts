@@ -6,6 +6,7 @@ import * as session from 'express-session';
 import * as helmet from 'helmet';
 import * as passport from 'passport';
 import { AppModule } from './app.module';
+import rateLimit from 'express-rate-limit'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -21,6 +22,16 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
+  /**
+   * To protect your applications from brute-force attacks
+   */
+  app.use(
+    rateLimit({
+      windowMs: 15 * 60 * 1000,
+      max: 100,
+    }),
+  );
+
   app.use(
     session({
       secret: 'my-secret',
