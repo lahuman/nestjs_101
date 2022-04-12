@@ -21,6 +21,15 @@ export class SearchUserDto {
   name?: string;
 }
 
+export class LoginUserDto {
+  @ApiProperty({ description: 'user Id', required: true })
+  @IsNotEmpty()
+  readonly id: string;
+
+  @ApiProperty({ description: 'user password', required: true })
+  @IsNotEmpty()
+  readonly password: string;
+}
 
 export class CreateUserDto {
   @ApiProperty({ description: 'user Id', required: true })

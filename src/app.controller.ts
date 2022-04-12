@@ -44,22 +44,4 @@ export class AppController {
     return res.data;
   }
 
-  @UseGuards(LoginGuard)
-  @ApiBody({ type: LoginDto })
-  @Post('/login')
-  login(@Req() req, @Res() res: Response): void {
-    res.send(req.user);
-  }
-
-  @UseGuards(AuthenticatedGuard)
-  @Get('/loginCheck')
-  loginCheck(@Req() req, @Res() res: Response): void {
-    res.send(req.user);
-  }
-
-  @Get('/logout')
-  logout(@Req() req, @Res() res: Response): void {
-    req.logout();
-    res.redirect('/');
-  }
 }

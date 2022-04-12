@@ -5,9 +5,8 @@ export class UserDto {
   constructor(partial: Partial<UserDto>) {
     Object.assign(this, partial);
   }
-  @ApiProperty({ description: 'user Email', required: true })
-  @IsEmail()
-  email: string;
+  @ApiProperty({ description: 'user id', required: true })
+  id: string;
 
   @ApiProperty({ description: 'user password', required: true })
   @IsNotEmpty()
@@ -18,7 +17,7 @@ export class LoginDto {
     Object.assign(this, partial);
   }
   @ApiProperty({ description: 'user id', required: true })
-  username: string;
+  id: string;
 
   @ApiProperty({ description: 'user password', required: true })
   password: string;

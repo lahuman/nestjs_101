@@ -19,9 +19,14 @@ async function bootstrap() {
     .setTitle('User example')
     .setDescription('The user API description')
     .setVersion('1.0').addTag('user')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'Token' },
+      'Authorization',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
+  
   /**
    * To protect your applications from brute-force attacks
    */
@@ -32,17 +37,6 @@ async function bootstrap() {
     }),
   );
 
-  app.use(
-    session({
-      secret: 'my-secret',
-      resave: false,
-      saveUninitialized: false,
-    }),
-  );
-
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.use(flash());
 
   await app.listen(3000);
 }
