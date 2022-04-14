@@ -34,6 +34,7 @@
     "express-rate-limit": "^6.3.0",
     "express-session": "^1.17.1",
     "helmet": "^4.4.1",
+    "nest-winston": "^1.6.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
@@ -41,7 +42,9 @@
     "rxjs": "^6.6.3",
     "sqlite3": "^5.0.2",
     "swagger-ui-express": "^4.1.6",
-    "typeorm": "^0.2.34"
+    "typeorm": "^0.2.34",
+    "winston": "^3.7.2",
+    "winston-daily-rotate-file": "^4.6.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.1",

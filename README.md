@@ -251,6 +251,63 @@ async function bootstrap() {
 }
 bootstrap();
 ```
+
+## WINSTON + winston-daily-rotate-file 추가 (2022.04.14)
+
+### 추가 모듈 설치 
+
+- [winston](https://www.npmjs.com/package/winston) : winston
+- [nest-winston](https://www.npmjs.com/package/nest-winston) : nestjs에서 winstion 사용 처리
+- [winston-daily-rotate-file](https://www.npmjs.com/package/winston-daily-rotate-file) : 날짜별 파일 생성 및 관리 지원
+
+```bash
+# nestjs에서 winston 과 관련된 모듈 추가 
+$ npm i nest-winston winston winston-daily-rotate-file
+```
+
+### 사용 예제
+
+main.js에서 아래와 같이 설정하여 사용
+
+```javascript
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
+
+...
+
+const app = await NestFactory.create(AppModule, {
+    logger: WinstonModule.createLogger({
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
+      transports: [
+        new winston.transports.Console(),
+        new (require('winston-daily-rotate-file'))({
+          dirname: path.join(__dirname, './../logs/debug/'), // 파일 저장 위치
+          filename: 'debug-%DATE%.log', // 파일 명
+          datePattern: 'YYYY-MM-DD-HH', // 파일명의 날짜(DATE) 패턴
+          level: 'debug', // 로그 레벨
+          zippedArchive: true, //압축 여부
+          maxSize: '20m', // 한개의 파일 최대 크기
+          maxFiles: '14d' // 파일의 최대 유지 날짜
+        }),
+        new (require('winston-daily-rotate-file'))({
+          dirname: path.join(__dirname, './../logs/info/'),
+          filename: 'info-%DATE%.log',
+          datePattern: 'YYYY-MM-DD-HH',
+          level: 'info',
+          zippedArchive: true,
+          maxSize: '20m',
+          maxFiles: '14d'
+        }),
+      ],
+    })
+  });
+
+...  
+```
+
 ## ACCESS 로깅 middleware 추가(2022.04.11) 
 
 ```src/common/middleware/AppLoggerMiddleware.ts``` 파일 추가 및 ```src/app.module.ts```에 다음 내용 추가
