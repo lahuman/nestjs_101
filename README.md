@@ -252,7 +252,7 @@ async function bootstrap() {
 bootstrap();
 ```
 
-## WINSTON + winston-daily-rotate-file 추가 (2022.04.14)
+## winston + winston-daily-rotate-file 추가 (2022.04.14)
 
 ### 추가 모듈 설치 
 
