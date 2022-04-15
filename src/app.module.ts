@@ -18,8 +18,8 @@ import { AppLoggerMiddleware } from './common/middleware/AppLoggerMiddleware';
     synchronize: true,
     logging: true
   }),
-  UserModule,
-  AuthModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

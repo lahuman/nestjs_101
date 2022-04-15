@@ -18,6 +18,7 @@ export class AppController {
 
   @Get()
   getHello(): string {
+    this.logger.debug("HELLO WORLD");
     return this.appService.getHello();
   }
 
