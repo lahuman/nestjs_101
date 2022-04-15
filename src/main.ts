@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import flash = require('connect-flash');
 import * as session from 'express-session';
-import * as helmet from 'helmet';
+import helmet from 'helmet';
 import * as passport from 'passport';
 import { AppModule } from './app.module';
 import rateLimit from 'express-rate-limit'

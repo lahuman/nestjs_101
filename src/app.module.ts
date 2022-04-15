@@ -83,7 +83,7 @@ import { AppLoggerMiddleware } from './common/middleware/AppLoggerMiddleware';
         entities: ['dist/**/*.entity{.ts,.js}'],
         synchronize: configService.get('DB_SYNC') === 'true',
         logging: configService.get('DB_LOGGING') === 'true',
-        logger: 'file',
+        logger: configService.get('LOGGING_WAY') ,
       }),
     }),
     UserModule,
