@@ -1,21 +1,20 @@
 import {
   HttpModule,
-  Logger,
   MiddlewareConsumer,
   Module,
   NestModule,
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { WinstonModule } from 'nest-winston';
+import * as Transport from 'winston-transport';
+import * as winston from 'winston';
+import * as path from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AppLoggerMiddleware } from './common/middleware/AppLoggerMiddleware';
-import { WinstonModule } from 'nest-winston';
-import * as Transport from 'winston-transport';
-import * as winston from 'winston';
-import * as path from 'path';
 
 @Module({
   imports: [
