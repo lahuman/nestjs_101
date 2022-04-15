@@ -252,6 +252,35 @@ async function bootstrap() {
 bootstrap();
 ```
 
+## ```@nestjs/config```를 이용한 상수처리  (2022.04.15)
+ 
+ ```.env``` 에서 필요한 상수를 로드하는 처리
+
+ - logger에 대한 상수 처리
+ - typeorm에 대한 상수 처리
+
+### 사용 예제 
+
+```src/app.module.ts``` 파일에서 ```forRootAsync```과 ```useFactory```을 이용하여 ```.env``` 파일의 상수를 활용
+
+```javascript
+...
+ TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'sqlite',
+        database: configService.get('DB_HOST'),
+        dropSchema: configService.get('DB_DROP') === 'true',
+        entities: ['dist/**/*.entity{.ts,.js}'],
+        synchronize: configService.get('DB_SYNC') === 'true',
+        logging: configService.get('DB_LOGGING') === 'true',
+        logger: 'file',
+      }),
+    }),
+....
+
+```
 ## winston + winston-daily-rotate-file 추가 (2022.04.14)
 
 ### 추가 모듈 설치 

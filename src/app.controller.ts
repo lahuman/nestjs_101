@@ -1,12 +1,10 @@
-import { Body, Controller, Get, HttpService, Logger, Post, Req, Res, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Req, Res, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppService } from './app.service';
 import { LoginDto, UserDto } from './dto/user.dto';
 import { Request, Response } from 'express';
 import { AuthExceptionFilter } from './common/filters/auth-exceptions.filter';
-import { LoginGuard } from './common/guards/login.guard';
-import { ApiBody } from '@nestjs/swagger';
-import { AuthenticatedGuard } from './common/guards/authenticated.guard';
+import { HttpService } from '@nestjs/axios';
 
 @Controller()
 @UseFilters(AuthExceptionFilter)
