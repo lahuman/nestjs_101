@@ -91,7 +91,7 @@ import { HttpModule } from '@nestjs/axios';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ConfigService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {

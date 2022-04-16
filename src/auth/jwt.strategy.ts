@@ -4,15 +4,16 @@ import { AuthService } from './auth.service';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtPayload } from './interfaces/payload.interface';
 import { UserRO } from '../user/dto/user.dto';
+import { ConfigService } from '@nestjs/config';
 
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly authService: AuthService) {
+  constructor(private readonly authService: AuthService, private readonly configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: true,
-      secretOrKey: process.env.SECRETKEY,
+      ignoreExpiration: false, // token을 validate에서 직접 처리 하려면 true로 변경 해야 한다.
+      secretOrKey: configService.get('SECRETKEY'),
     });
   }
 
