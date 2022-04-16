@@ -22,7 +22,6 @@ import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('사용자')
-@ApiBasicAuth()
 @Controller('user')
 @UseFilters(AuthExceptionFilter)
 export class UserController {
@@ -50,8 +49,8 @@ export class UserController {
   @ApiOperation({ summary: '사용자 목록 조회' })
   @ApiResponse({ status: 200, type: UserRO })
   @UseInterceptors(ClassSerializerInterceptor)
-  @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   async findUser(@Param("id") id: string): Promise<UserRO> {
     return this.service.findUser(id);

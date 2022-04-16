@@ -1,16 +1,19 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import {
+  SwaggerModule,
+  DocumentBuilder,
+  SwaggerDocumentOptions,
+} from '@nestjs/swagger';
 import flash = require('connect-flash');
 import * as session from 'express-session';
 import helmet from 'helmet';
 import * as passport from 'passport';
 import { AppModule } from './app.module';
-import rateLimit from 'express-rate-limit'
+import rateLimit from 'express-rate-limit';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 async function bootstrap() {
-
   const app = await NestFactory.create(AppModule);
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   app.useGlobalPipes(new ValidationPipe());
@@ -20,15 +23,16 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('User example')
     .setDescription('The user API description')
-    .setVersion('1.0').addTag('user')
-    .addBearerAuth(
-      { type: 'http', scheme: 'bearer', bearerFormat: 'Token' },
-      'Authorization',
-    )
+    .setVersion('1.0')
+    .addBearerAuth()
     .build();
-  const document = SwaggerModule.createDocument(app, config);
+  const options: SwaggerDocumentOptions = {
+    deepScanRoutes: true,
+  };
+
+  const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('docs', app, document);
-  
+
   /**
    * To protect your applications from brute-force attacks
    */
@@ -38,7 +42,6 @@ async function bootstrap() {
       max: 100,
     }),
   );
-
 
   await app.listen(3000);
 }
