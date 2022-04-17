@@ -1,14 +1,11 @@
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
 import {
   SwaggerModule,
   DocumentBuilder,
   SwaggerDocumentOptions,
 } from '@nestjs/swagger';
-import flash = require('connect-flash');
-import * as session from 'express-session';
 import helmet from 'helmet';
-import * as passport from 'passport';
 import { AppModule } from './app.module';
 import rateLimit from 'express-rate-limit';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
@@ -16,6 +13,8 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+  // @UseInterceptors(ClassSerializerInterceptor) 을 Global로 처리
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalPipes(new ValidationPipe());
 
   app.use(helmet());

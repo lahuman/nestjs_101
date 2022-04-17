@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -11,12 +10,9 @@ import {
   Req,
   UseFilters,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
-import { ApiBasicAuth, ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtGuard } from '../common/guards/jwt.guard';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthExceptionFilter } from '../common/filters/auth-exceptions.filter';
-import { AuthenticatedGuard } from '../common/guards/authenticated.guard';
 import { CreateUserDto, ModifyUserDto, SearchUserDto, UserRO } from './dto/user.dto';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -29,7 +25,6 @@ export class UserController {
 
   @ApiOperation({ summary: '사용자 추가 (로그인 없이 추가)' })
   @ApiResponse({ status: 200, type: UserRO })
-  @UseInterceptors(ClassSerializerInterceptor)
   @ApiBody({ type: CreateUserDto })
   @Post("addTestUser")
   async addTestUser(@Body() userDto: CreateUserDto): Promise<UserRO> {
@@ -38,7 +33,6 @@ export class UserController {
 
   @ApiOperation({ summary: '사용자 조회' })
   @ApiResponse({ status: 200, type: UserRO })
-  @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @Get()
@@ -48,7 +42,6 @@ export class UserController {
 
   @ApiOperation({ summary: '사용자 목록 조회' })
   @ApiResponse({ status: 200, type: UserRO })
-  @UseInterceptors(ClassSerializerInterceptor)
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
@@ -59,7 +52,6 @@ export class UserController {
   @ApiBody({ type: CreateUserDto })
   @ApiOperation({ summary: '사용자 등록' })
   @ApiResponse({ status: 201, type: UserRO })
-  @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @Post()
@@ -70,7 +62,6 @@ export class UserController {
   @ApiBody({ type: ModifyUserDto })
   @ApiOperation({ summary: '사용자 수정' })
   @ApiResponse({ status: 200, type: UserRO })
-  @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @Put(':id')
@@ -80,7 +71,6 @@ export class UserController {
 
   @ApiOperation({ summary: '사용자 삭제' })
   @ApiResponse({ status: 200, })
-  @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @Delete(':id')
