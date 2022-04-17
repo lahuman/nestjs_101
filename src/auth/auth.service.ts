@@ -1,9 +1,7 @@
 // auth.service.ts
 import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserEntity } from 'src/entity/user.entity';
-import { CreateUserDto, LoginUserDto, UserRO } from 'src/user/dto/user.dto';
+import { CreateUserDto, LoginUserDto, UserRO } from '../user/dto/user.dto';
 import { UserService } from '../user/user.service';
-import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { RegistrationStatus } from './interfaces/regisration-status.interface';
 import { LoginStatus } from './interfaces/login-status.interface';
