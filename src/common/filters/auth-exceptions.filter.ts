@@ -5,11 +5,13 @@ import {
   HttpException,
   UnauthorizedException,
   ForbiddenException,
+  Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 @Catch(HttpException)
 export class AuthExceptionFilter implements ExceptionFilter {
+  logger: Logger = new Logger(AuthExceptionFilter.name);
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -27,8 +29,9 @@ export class AuthExceptionFilter implements ExceptionFilter {
       response.status(500).send({
         statusCode: 500,
         message: 'Internal Server Error',
-        exception
+        exception,
       });
     }
+    this.logger.error(`${request.method} ${request.url}`,exception.stack,AuthExceptionFilter.name);
   }
 }
