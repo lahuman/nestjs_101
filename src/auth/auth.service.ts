@@ -1,7 +1,5 @@
 // auth.service.ts
 import { Injectable } from '@nestjs/common';
-import { UserEntity } from 'src/entity/user.entity';
-import { UserRO } from 'src/user/dto/user.dto';
 import { UserService } from '../user/user.service';
 
 @Injectable()
