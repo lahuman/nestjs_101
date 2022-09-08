@@ -1,5 +1,7 @@
-import { Body, Controller, Get, HttpService, Logger, Post, Req, Res, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Req, Res, UseFilters, UseGuards,  } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
+import { firstValueFrom } from 'rxjs';
 import { AppService } from './app.service';
 import { LoginDto, UserDto } from './dto/user.dto';
 import { Request, Response } from 'express';
@@ -41,7 +43,7 @@ export class AppController {
 
   @Get('/httpTest')
   async callMockHtt(): Promise<any> {
-    const res = await this.httpService.get('http://jsonplaceholder.typicode.com/todos/1').toPromise();
+    const res = await firstValueFrom(this.httpService.get('http://jsonplaceholder.typicode.com/todos/1'));
     return res.data;
   }
 

@@ -1,9 +1,9 @@
 import {
-  HttpModule,
   MiddlewareConsumer,
   Module,
   NestModule,
 } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { WinstonModule } from 'nest-winston';
 import * as Transport from 'winston-transport';
@@ -19,7 +19,10 @@ import { AppLoggerMiddleware } from './common/middleware/AppLoggerMiddleware';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    HttpModule,
+    HttpModule.register({
+      timeout: 5000,
+      maxRedirects: 5,
+    }),
     WinstonModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
