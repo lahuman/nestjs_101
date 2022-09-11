@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -11,9 +10,9 @@ import {
   Req,
   UseFilters,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBasicAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CacheEvict, NoCache } from 'src/common/core/cache.decorator';
 import { AuthExceptionFilter } from '../common/filters/auth-exceptions.filter';
 import { AuthenticatedGuard } from '../common/guards/authenticated.guard';
 import { CreateUserDto, ModifyUserDto, SearchUserDto, UserRO } from './dto/user.dto';
@@ -40,12 +39,13 @@ export class UserController {
   async find(@Query() searchUser: SearchUserDto): Promise<UserRO> {
     return this.service.find(searchUser);
   }
-
+  
   @ApiOperation({ summary: '사용자 목록 조회' })
   @ApiResponse({ status: 200, type: UserRO })
   @UseGuards(AuthenticatedGuard)
   @ApiBasicAuth()
   @Get(':id')
+  @NoCache()
   async findUser(@Param("id") id: string): Promise<UserRO> {
     return this.service.findUser(id);
   }
@@ -66,6 +66,7 @@ export class UserController {
   @UseGuards(AuthenticatedGuard)
   @ApiBasicAuth()
   @Put(':id')
+  @CacheEvict('user')
   async modifyUser(@Param("id") id: string, @Body() userDto: ModifyUserDto): Promise<UserRO> {
     return await this.service.update(id, userDto);
   }

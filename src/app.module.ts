@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  CacheModule,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+} from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { WinstonModule } from 'nest-winston';
@@ -10,6 +15,8 @@ import { AuthModule } from './auth/auth.module';
 import { AppLoggerMiddleware } from './common/middleware/AppLoggerMiddleware';
 import logging from './common/config/logging';
 import databaseConfig from './common/config/database';
+import { HttpCacheInterceptor } from './common/core/httpcache.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -34,11 +41,19 @@ import databaseConfig from './common/config/database';
       useFactory: (configService: ConfigService) =>
         configService.get('databaseConfig'),
     }),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 60 * 60
+    }),
     UserModule,
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,   {
+    // cacheFilter 등록
+    provide: APP_INTERCEPTOR,
+    useClass: HttpCacheInterceptor,
+  },],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {

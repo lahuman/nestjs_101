@@ -253,6 +253,14 @@ bootstrap();
 ```
 
 
+## [chaching](https://docs.nestjs.com/techniques/caching) 처리 (2022.09.11)
+
+
+- httpcache.interceptor.ts 
+  > URL 기준으로 http method가 get 일 경우 데이터 값을 저장 처리하며, post, delete, put 등이 호출 될 경우 URL 기준으로 기존 캐시를 삭제
+- cache.decorator.ts
+ > @NoCache 캐시 예외 처리 @CacheEvict 캐시 삭제시 다른 url 함께 처리 
+ 
 ## ```@nestjs/config```를 활용한 설정파일 관리  (2022.09.15)
 
 ```src/common/config``` 에 각 항목의 설정 파일을 적재후 사용 
