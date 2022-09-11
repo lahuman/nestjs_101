@@ -255,10 +255,12 @@ bootstrap();
 
 ## ```@nestjs/config```를 활용한 설정파일 관리  (2022.09.15)
 
-```src/common/config``` 에 각 항목의 설정 파일을 적재후 사용 처리
+```src/common/config``` 에 각 항목의 설정 파일을 적재후 사용 
 
 - logging
-
+- database
+  + SnakeNamingStrategy 추가
+  + QueryLogger 추가
 
 ## ```@nestjs/config```를 이용한 상수처리  (2022.04.15)
  
