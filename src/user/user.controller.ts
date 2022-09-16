@@ -13,14 +13,14 @@ import {
 } from '@nestjs/common';
 import { ApiBasicAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CacheEvict, NoCache } from 'src/common/core/cache.decorator';
-import { AuthExceptionFilter } from '../common/filters/auth-exceptions.filter';
+import { AllExceptionsFilter } from '../common/filters/auth-exceptions.filter';
 import { AuthenticatedGuard } from '../common/guards/authenticated.guard';
 import { CreateUserDto, ModifyUserDto, SearchUserDto, UserRO } from './dto/user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
 @ApiTags('사용자')
-@UseFilters(AuthExceptionFilter)
+// @UseFilters(AllExceptionsFilter)
 export class UserController {
   constructor(private readonly service: UserService) { }
 

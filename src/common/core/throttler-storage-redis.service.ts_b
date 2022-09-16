@@ -1,0 +1,30 @@
+import { InjectRedis } from '@liaoliaots/nestjs-redis';
+import { Injectable } from '@nestjs/common';
+import Redis from 'ioredis';
+
+@Injectable()
+export class ThrottlerStorageRedisService {
+    scanCount: number;
+
+    constructor(@InjectRedis() private readonly redis: Redis,) {
+        this.scanCount = 1000;
+    }
+
+    async getRecord(key: string): Promise<number[]> {
+        const ttls = (
+            await this.redis.scan(
+                0,
+                'MATCH',
+                `${this.redis?.options?.keyPrefix}${key}:*`,
+                'COUNT',
+                this.scanCount,
+            )
+        ).pop();
+        return (ttls as string[]).map((k) => parseInt(k.split(':').pop())).sort();
+    }
+
+    async addRecord(key: string, ttl: number): Promise<void> {
+        await this.redis.set(`${key}:${Date.now() + ttl * 1000}`, ttl, 'EX', ttl);
+    }
+
+}

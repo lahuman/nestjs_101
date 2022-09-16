@@ -5,13 +5,14 @@ import { firstValueFrom } from 'rxjs';
 import { AppService } from './app.service';
 import { LoginDto, UserDto } from './dto/user.dto';
 import { Request, Response } from 'express';
-import { AuthExceptionFilter } from './common/filters/auth-exceptions.filter';
+import { AllExceptionsFilter } from './common/filters/auth-exceptions.filter';
 import { LoginGuard } from './common/guards/login.guard';
 import { ApiBody } from '@nestjs/swagger';
 import { AuthenticatedGuard } from './common/guards/authenticated.guard';
+import { ThrottlerBehindProxyGuard } from './common/core/throttler.guard';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller()
-@UseFilters(AuthExceptionFilter)
 export class AppController {
   constructor(private readonly appService: AppService,
     private configService: ConfigService,
@@ -25,6 +26,8 @@ export class AppController {
   }
 
   @Post('valid')
+  @UseGuards(ThrottlerBehindProxyGuard)
+  @Throttle(3, 60)
   testValid(@Body() userDto: UserDto) {
     this.logger.log(userDto);
     // get an environment variable

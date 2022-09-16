@@ -17,6 +17,7 @@ import logging from './common/config/logging';
 import databaseConfig from './common/config/database';
 import { HttpCacheInterceptor } from './common/core/httpcache.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -44,6 +45,10 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     CacheModule.register({
       isGlobal: true,
       ttl: 60 * 60
+    }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 100
     }),
     UserModule,
     AuthModule,

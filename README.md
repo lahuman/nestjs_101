@@ -253,13 +253,53 @@ bootstrap();
 ```
 
 
+## [throttler-ratelimiting](https://docs.nestjs.com/security/rate-limiting) 처리 (2022.09.16)
+
+```mermaid
+sequenceDiagram;
+    autonumber;
+    actor User;
+    loop 60초 동안 4개 제한
+        User->>+ valid: 계정 확인;
+        valid -->>- User: 성공;
+    end;
+```
+
+- [@nestjs/throttler](https://github.com/nestjs/throttler)
+  > throttler 모듈을 변경해서 로그인 계정 기준으로 특정 시간동안 요청 제한 처리
+- 추가 및 변경 소스 목록 
+  + src/app.module.ts : throttler 모듈 설정
+  + src/app.controller.ts : 사용 예제(valid method)
+  + src/common/core/throttler.guard.ts : guard 설정
+  + src/common/core/throttler-storage-redis.service.ts_b : redis를 storage 사용시 예제
+ 
 ## [chaching](https://docs.nestjs.com/techniques/caching) 처리 (2022.09.11)
 
+```mermaid
+graph LR;
+    request[request] -->|URI| get{GET};
+    get --> |Y| nocache{NoCache};
+    get --> |N| callP(next);
+    nocache --> |Y| callng(next);
+    nocache --> |N| hascache{HasCache};
+    hascache --> |N| callg(next);
+    callg --> savecache(SaveCache);
+    hascache --> |Y| getcache(GetCache);
+    callP --> hasevict{hasEvict};
+    hasevict --> |Y| keys(getKeys);
+    hasevict --> |N| uri(uri);
+    keys --> removecache(removeCache);
+    uri --> removecache;
+    removecache --> return[RETURN];
+    callng --> return;
+    getcache --> return;
+    savecache --> return;
+```
 
 - httpcache.interceptor.ts 
-  > URL 기준으로 http method가 get 일 경우 데이터 값을 저장 처리하며, post, delete, put 등이 호출 될 경우 URL 기준으로 기존 캐시를 삭제
+  > URL 기준으로 http method가 ```get``` 일 경우 데이터 값을 저장 처리하며 ```post```, ```delete```, ```put``` 등이 호출 될 경우 URL 기준으로 기존 캐시를 삭제
 - cache.decorator.ts
- > @NoCache 캐시 예외 처리 @CacheEvict 캐시 삭제시 다른 url 함께 처리 
+ > ```@NoCache``` 캐시 예외 처리 ```@CacheEvict``` 캐시 삭제시 다른 url 함께 처리 
  
 ## ```@nestjs/config```를 활용한 설정파일 관리  (2022.09.15)
 
