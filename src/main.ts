@@ -5,17 +5,21 @@ import flash = require('connect-flash');
 import * as session from 'express-session';
 import helmet from 'helmet';
 import * as passport from 'passport';
-import { AppModule } from './app.module';
 import rateLimit from 'express-rate-limit'
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { Logger } from 'nestjs-pino';
+
+import { AppModule } from './app.module';
 
 async function bootstrap() {
 
-  const app = await NestFactory.create(AppModule);
-  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+  });
   // @UseInterceptors(ClassSerializerInterceptor) 을 Global로 처리
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useLogger(app.get(Logger));
+  app.flushLogs();
 
   app.use(helmet());
   app.enableCors();

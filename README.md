@@ -253,6 +253,12 @@ bootstrap();
 ```
 
 
+## [nestjs-pino]](https://www.npmjs.com/package/nestjs-pin) 적용 (2023.01.17)
+
+> 로깅시 요청 정보를 함께 적재하여, 각 로그별 연결 처리
+
+
+
 ## [throttler-ratelimiting](https://docs.nestjs.com/security/rate-limiting) 처리 (2022.09.16)
 
 ```mermaid

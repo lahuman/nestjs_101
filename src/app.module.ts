@@ -6,14 +6,14 @@ import {
 } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { WinstonModule } from 'nest-winston';
+import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AppLoggerMiddleware } from './common/middleware/AppLoggerMiddleware';
-import logging from './common/config/logging';
+import logging from './common/config/pinoLogging';
 import databaseConfig from './common/config/database';
 import { HttpCacheInterceptor } from './common/core/httpcache.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -30,7 +30,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
       timeout: 5000,
       maxRedirects: 5,
     }),
-    WinstonModule.forRootAsync({
+    LoggerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) =>
