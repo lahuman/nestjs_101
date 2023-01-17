@@ -253,9 +253,9 @@ bootstrap();
 ```
 
 
-## [nestjs-pino]](https://www.npmjs.com/package/nestjs-pin) 적용 (2023.01.17)
+## [nestjs-pino](https://www.npmjs.com/package/nestjs-pino) 적용 (2023.01.17)
 
-> 로깅시 요청 정보를 함께 적재하여, 각 로그별 연결 처리
+> 로깅시 요청 정보를 함께 표시하여, 각 로그별 연결 처리를 하였습니다. [상세내용](https://lahuman.github.io/nestjs_pino/)
 
 추가 설치 모듈 정보 
 
