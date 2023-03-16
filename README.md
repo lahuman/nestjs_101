@@ -253,6 +253,13 @@ bootstrap();
 ```
 
 
+## module update 적용 (2023.03.16)
+
+> 주요 변경 내역은 아래와 같습니다. 
+
+ - nestjs 9.3.x 적용
+ - typeorm 0.3.x 적용 
+
 ## [nestjs-pino](https://www.npmjs.com/package/nestjs-pino) 적용 (2023.01.17)
 
 > 로깅시 요청 정보를 함께 표시하여, 각 로그별 연결 처리를 하였습니다. [상세내용](https://lahuman.github.io/nestjs_pino/)
