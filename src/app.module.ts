@@ -44,7 +44,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
     }),
     CacheModule.register({
       isGlobal: true,
-      ttl: 10
+      ttl: 1000*10
     }),
     ThrottlerModule.forRoot({
       ttl: 60,
