@@ -17,7 +17,7 @@ async function bootstrap() {
   });
   // @UseInterceptors(ClassSerializerInterceptor) 을 Global로 처리
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true })); 
   app.useLogger(app.get(Logger));
   app.flushLogs();
 
