@@ -252,6 +252,16 @@ async function bootstrap() {
 bootstrap();
 ```
 
+# Update 내역
+
+## firebase 연계 (2023.07.19)
+
+`src/common/firebase` 이하 firebase 연계 처리 추가
+
+1. [firebase](https://console.firebase.google.com/) 에서 프로젝트 생성 후 진행
+2. `firebase.config.json` 파일이 `src/common/firebase` 디렉토리에 존재 해야 함
+3. `http://localhost:3000/firebaseInfo` API 호출시 `header`에 `authorization` 추가해서 호출시 `firebase` 사용자 정보를 확인 
+
 
 ## module update 적용 (2023.03.16)
 
