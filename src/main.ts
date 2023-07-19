@@ -2,12 +2,11 @@ import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import flash = require('connect-flash');
-import * as session from 'express-session';
+import session = require('express-session');
 import helmet from 'helmet';
-import * as passport from 'passport';
+import passport = require('passport');
 import rateLimit from 'express-rate-limit'
 import { Logger } from 'nestjs-pino';
-
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -26,17 +25,19 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('User example')
     .setDescription('The user API description')
-    .setVersion('1.0').addTag('user')
+    .setVersion('1.0')
+    .addBearerAuth() // auth 를 사용하려면 필수
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
+  
   /**
    * To protect your applications from brute-force attacks
    */
   app.use(
     rateLimit({
-      windowMs: 15 * 60 * 1000,
-      max: 100,
+      windowMs: 60 * 1000,
+      max: 1000,
     }),
   );
 

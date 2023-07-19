@@ -1,3 +1,6 @@
+# firebase 설정 파일
+**/firebase.config.json
+
 # compiled output
 /dist
 /node_modules

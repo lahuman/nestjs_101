@@ -18,6 +18,7 @@ import databaseConfig from './common/config/database';
 import { HttpCacheInterceptor } from './common/core/httpcache.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { FirebaseModule } from './common/firebase/firebase.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
     }),
     UserModule,
     AuthModule,
+    FirebaseModule
   ],
   controllers: [AppController],
   providers: [AppService,   {
@@ -62,6 +64,6 @@ import { ThrottlerModule } from '@nestjs/throttler';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(AppLoggerMiddleware).forRoutes('*');
+    // consumer.apply(AppLoggerMiddleware).forRoutes('*'); // pino 로그 사용시, 기본적인 요청에 의한 로깅이 생성됨으로 삭제 처리
   }
 }
