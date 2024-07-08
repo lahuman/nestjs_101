@@ -254,6 +254,12 @@ bootstrap();
 
 # Update 내역
 
+## 모듈 최신화 업데이트 (2024.07.8)
+
+- nestjs 10.3.0 
+- 전반적인 모듈 업뎃
+- npm => pnpm 모듈을 이용한 설치로 변경 
+
 ## firebase 연계 (2023.07.19)
 
 `src/common/firebase` 이하 firebase 연계 처리 추가
