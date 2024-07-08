@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Post,
   Put,
@@ -11,12 +12,14 @@ import {
   UseFilters,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBasicAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CacheEvict, NoCache } from 'src/common/core/cache.decorator';
 import { AllExceptionsFilter } from '../common/filters/auth-exceptions.filter';
 import { AuthenticatedGuard } from '../common/guards/authenticated.guard';
 import { CreateUserDto, ModifyUserDto, SearchUserDto, UserRO } from './dto/user.dto';
 import { UserService } from './user.service';
+import { FirebaseGuard } from 'src/common/firebase/firebase.guard';
+import { FirebaseUser } from 'src/common/firebase/firebase-user.decorator';
 
 @Controller('user')
 @ApiTags('사용자')
@@ -78,5 +81,15 @@ export class UserController {
   @Delete(':id')
   async deleteUser(@Param("id") id: string,): Promise<void> {
     await this.service.remove(id);
+  }
+
+  @ApiResponse({ status: 200, type: null })
+  @HttpCode(200)
+  @Get('/firebaseInfo')
+  @UseGuards(FirebaseGuard)
+  @ApiTags('firebase 연동 테스트')
+  @ApiBearerAuth()
+  getInfo(@FirebaseUser() firebaseUser: object) {
+    return firebaseUser;
   }
 }

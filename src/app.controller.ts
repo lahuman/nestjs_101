@@ -41,7 +41,7 @@ export class AppController {
 
   @Post('valid')
   @UseGuards(ThrottlerBehindProxyGuard)
-  @Throttle(3, 60)
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
   testValid(@Body() userDto: UserDto) {
     this.logger.log(userDto);
     // get an environment variable

@@ -1,9 +1,9 @@
 import {
-  CacheModule,
   MiddlewareConsumer,
   Module,
   NestModule,
 } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
@@ -47,13 +47,13 @@ import { FirebaseModule } from './common/firebase/firebase.module';
       isGlobal: true,
       ttl: 1000*10
     }),
-    ThrottlerModule.forRoot({
-      ttl: 60,
-      limit: 100
-    }),
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 10,
+    }]),
+    FirebaseModule,
     UserModule,
     AuthModule,
-    FirebaseModule
   ],
   controllers: [AppController],
   providers: [AppService,   {

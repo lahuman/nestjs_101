@@ -1,10 +1,10 @@
 import {
-    CacheInterceptor,
     CallHandler,
     ExecutionContext,
     Inject,
     Injectable,
 } from '@nestjs/common';
+import {CacheInterceptor} from '@nestjs/cache-manager';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { Observable, tap } from 'rxjs';
